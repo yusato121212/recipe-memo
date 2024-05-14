@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsersController;   // 追記
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +28,18 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// 以下追記 ---
+
+// 認証済みのときだけアクセスできるようにする
+Route::group(['middleware' => ['auth']], function () {
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('create', [UsersController::class, 'create'])->name('users.create');
+        Route::get('mypage', [UsersController::class, 'mypage'])->name('users.mypage');
+    });
+}); 
+
+// indexは認証済みじゃなくてもアクセスできるようにする
+Route::get('users', [UsersController::class, 'index'])->name('users.index');
 
 require __DIR__.'/auth.php';

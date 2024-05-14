@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    ここにトップページの内容を作成する
+    <div class="w-full">
+        @include('users.navtabs')    
+    </div>
+    
+    @include('users.index')
+    @if (Auth::Check())
+        ログインしてますよ
+    @else
+        ログインしていないですよ
+    @endif
 @endsection
