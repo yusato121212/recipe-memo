@@ -7,7 +7,8 @@
         @include('users.navtabs')    
     </div>
     
-    <form>
+    <form method="POST" action="{{route('users.store')}}" enctype="multipart/form-data">
+        @csrf
         {{-- レシピタイトル --}}
         <div class="form-control w-full my-4">
             <label for="title" class="label">
@@ -18,103 +19,48 @@
         
         {{-- 材料 --}}
         <div class="form-control w-full my-4">
-            <label for="material1" class="label">
-                <span class="label-text w-1/6">材料</span>
-                <input type="text" name="material1" placeholder="材料名を入力してください" class="input input-bordered w-4/6">
-                <input type="text" name="quantity1" placeholder="分量を入力してください" class="input input-bordered w-1/6">
-            </label>
-            <label for="material2" class="label">
-                <span class="label-text w-1/6"></span>
-                <input type="text" name="material2" placeholder="材料名を入力してください" class="input input-bordered w-4/6">
-                <input type="text" name="quantity2" placeholder="分量を入力してください" class="input input-bordered w-1/6">
-            </label>
-            <label for="material3" class="label">
-                <span class="label-text w-1/6"></span>
-                <input type="text" name="material3" placeholder="材料名を入力してください" class="input input-bordered w-4/6">
-                <input type="text" name="quantity3" placeholder="分量を入力してください" class="input input-bordered w-1/6">
-            </label>
-            <label for="material4" class="label">
-                <span class="label-text w-1/6"></span>
-                <input type="text" name="material4" placeholder="材料名を入力してください" class="input input-bordered w-4/6">
-                <input type="text" name="quantity4" placeholder="分量を入力してください" class="input input-bordered w-1/6">
-            </label>
-            <label for="material5" class="label">
-                <span class="label-text w-1/6"></span>
-                <input type="text" name="material5" placeholder="材料名を入力してください" class="input input-bordered w-4/6">
-                <input type="text" name="quantity5" placeholder="分量を入力してください" class="input input-bordered w-1/6">
+            @for ($i = 1; $i <= 5; $i++)
+                <div class="flex items-center my-2">
+                    <label for="material{{ $i }}" class="label w-1/6">
+                        <span class="label-text">材料{{ $i }}</span>
+                    </label>
+                    <input type="text" name="material{{ $i }}" placeholder="材料名" class="input input-bordered w-4/6">
+                    <input type="text" name="quantity{{ $i }}" placeholder="分量" class="input input-bordered w-1/6 ml-2">
+                </div>
+            @endfor
+        </div>
+        
+        {{-- 手順 --}}
+        <div class="form-control w-full my-4">
+            @for ($i = 1; $i <= 5; $i++)
+                <div class="flex items-start my-2">
+                    <label for="step{{ $i }}" class="label w-1/6">
+                        <span class="label-text">手順{{ $i }}</span>
+                    </label>
+                    <textarea name="step{{ $i }}" placeholder="手順を入力してください" class="input input-bordered w-4/6"></textarea>
+                    <input type="file" name="step_image{{ $i }}" class="w-1/6 ml-2">
+                </div>
+            @endfor
+        </div>
+        
+        {{-- 完成画像 --}}
+        <div class="form-control w-full my-4">
+            <label for="image" class="label">
+                <span class="label-text w-1/6">完成画像</span>
+                <input type="file" name="image" class="w-5/6">
             </label>
         </div>
         
-        {{-- 手順 ★アップロード処理別途追加 --}}
+        {{-- ひとこと --}}
         <div class="form-control w-full my-4">
-            <label for="step1" class="label">
-                <span class="label-text w-1/6">手順1</span>
-                <textarea name="material5" placeholder="手順を入力してください" class="input input-bordered w-4/6"></textarea>
-                <div class='w-1/6'>
-                    <form action="/upload" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" name="image">
-                    </form>
-                </div>
-            </label>
-            <label for="step2" class="label">
-                <span class="label-text w-1/6">手順2</span>
-                <textarea name="material5" placeholder="手順を入力してください" class="input input-bordered w-4/6"></textarea>
-                <div class='w-1/6'>
-                    <form action="/upload" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" name="image">
-                    </form>
-                </div>
-            </label>
-            <label for="step3" class="label">
-                <span class="label-text w-1/6">手順3</span>
-                <textarea name="material5" placeholder="手順を入力してください" class="input input-bordered w-4/6"></textarea>
-                <div class='w-1/6'>
-                    <form action="/upload" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" name="image">
-                    </form>
-                </div>
-            </label>
-            <label for="step4" class="label">
-                <span class="label-text w-1/6">手順4</span>
-                <textarea name="material5" placeholder="手順を入力してください" class="input input-bordered w-4/6"></textarea>
-                <div class='w-1/6'>
-                    <form action="/upload" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" name="image">
-                    </form>
-                </div>
-            </label>
-            <label for="step5" class="label">
-                <span class="label-text w-1/6">手順5</span>
-                <textarea name="material5" placeholder="手順を入力してください" class="input input-bordered w-4/6"></textarea>
-                <div class='w-1/6'>
-                    <form action="/upload" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" name="image">
-                    </form>
-                </div>
-            </label>
-        </div>
-        {{-- 手順 ★アップロード処理別途追加 --}}
-        <div class="form-control w-full my-4">
-            <label for="title" class="label">
-                <span class="label-text w-1/6">完成画像</span>
-                <div class='w-5/6'>
-                    <form action="/upload" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" name="image">
-                    </form>
-                </div>
+            <label for="comment" class="label">
+                <span class="label-text w-1/6">ひとこと</span>
+                <textarea name="comment" placeholder="ひとことを入力してください" class="input input-bordered w-5/6"></textarea>
             </label>
         </div>
 
         <div class="form-control w-full my-4">
-            <div>
-                <button class="btn btn-primary">投稿する</button>
-            </div>
+            <button type="submit" class="btn btn-primary">投稿する</button>
         </div>
     </form>
 @endsection

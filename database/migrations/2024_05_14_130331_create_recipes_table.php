@@ -15,7 +15,15 @@ return new class extends Migration
     {
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->unsignedBigInteger('user_id');
+            $table->string('image');    // 画像はパスを保存する
+            $table->string('comment');  // ひとこと
             $table->timestamps();
+            
+            // 外部キー制約：user_idはusersテーブルのidを参照する
+            $table->foreign('user_id')->references('id')->on('users');
+            
         });
     }
 
